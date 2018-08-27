@@ -5,7 +5,7 @@ app = Flask(__name__)
 mystores = [
     {
         'name': 'My Wonderful Store',
-        'item': [{'name': 'My Item', 'price': 15.99}]
+        'items': [{'name': 'My Item', 'price': 15.99}]
     }
 ]
 
@@ -43,7 +43,7 @@ def get_store(name):
 # GET /store
 @app.route('/store')
 def get_stores():
-    return jsonify({'stores1': mystores})
+    return jsonify({'stores': mystores})
 
 # CREATE ITEM IN SPECIFIC STORE
 # POST /store/<string:name>/item {name:, price:}
@@ -53,7 +53,7 @@ def create_item_in_store(name):
     for store in mystores:
         if store['name'] == name:
             new_item = {'name': request_data['name'], 'price': request_data['price']}
-            store['item'].append(new_item)
+            store['items'].append(new_item)
             return jsonify(new_item)
     return jsonify({'message': 'store not found'})
 
@@ -63,7 +63,7 @@ def create_item_in_store(name):
 def get_item_in_store(name):
     for store in mystores:
         if store['name'] == name:
-            return jsonify(store['item'])
+            return jsonify({'items':store['items']})
     return jsonify({'message': 'store not found'})
 
 app.run(port=5000)
